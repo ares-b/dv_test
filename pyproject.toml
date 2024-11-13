@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "dv-test"
+version = "0.0.0"
+description = ""
+authors = [
+    "Arslane BAHLEL <arslane.bahlel@gmail.com>"
+]
+maintainers = [
+    "Arslane BAHLEL <arslane.bahlel@gmail.com>"
+]
+readme = "README.md"
+packages = [
+    { include = "*.py", from = "src" }
+]
+
+[tool.poetry.scripts]
+dv_strategies = "strategy_tree:main"
+
+[tool.poetry.dependencies]
+python = ">=3.12"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.0"
+ruff = "^0.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = "tests"
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "tab"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
