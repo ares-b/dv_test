@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
-from typing import List
+from typing import Self
 
 @dataclass
 class Condition(ABC):
@@ -9,18 +9,18 @@ class Condition(ABC):
 
     @property
     @abstractmethod
-    def operator(self):
+    def operator(self) -> str:
         raise NotImplementedError(f"{self.__class__.__name__}.operator not implemented")
     
     @abstractmethod
-    def negate(self):
+    def negate(self) -> Self:
         raise NotImplementedError(f"{self.__class__.__name__}.negate not implemented")
 
     @abstractmethod
     def contradicts(self, other: "Condition") -> bool:
         raise NotImplementedError(f"{self.__class__.__name__}.contradicts not implemented")
     
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.variable}{self.operator}{self.value}"
     
     def __eq__(self, other: "Condition") -> bool:
@@ -28,7 +28,7 @@ class Condition(ABC):
 
 class EqualsCondition(Condition):
 
-    def negate(self):
+    def negate(self) -> Self:
         return NotEqualsCondition(self.variable, self.value)
     
     def contradicts(self, other: Condition) -> bool:
@@ -47,12 +47,12 @@ class EqualsCondition(Condition):
         return False
         
     @property
-    def operator(self):
+    def operator(self) -> str:
         return "="
 
 class NotEqualsCondition(Condition):
 
-    def negate(self):
+    def negate(self) -> Self:
         return EqualsCondition(self.variable, self.value)
     
     def contradicts(self, other: Condition) -> bool:
@@ -63,12 +63,12 @@ class NotEqualsCondition(Condition):
         return False
     
     @property
-    def operator(self):
+    def operator(self) -> str:
         return "!="
     
 class GreaterThanCondition(Condition):
 
-    def negate(self):
+    def negate(self) -> Self:
         return LessThanOrEqualCondition(self.variable, self.value)
     
     def contradicts(self, other: Condition) -> bool:
@@ -81,12 +81,12 @@ class GreaterThanCondition(Condition):
         return False
         
     @property
-    def operator(self):
+    def operator(self) -> str:
         return ">"
 
 class GreaterThanOrEqualCondition(Condition):
    
-    def negate(self):
+    def negate(self) -> Self:
         return LessThanCondition(self.variable, self.value)
     
     def contradicts(self, other: Condition) -> bool:
@@ -99,12 +99,12 @@ class GreaterThanOrEqualCondition(Condition):
         return False
     
     @property
-    def operator(self):
+    def operator(self) -> str:
         return ">="
 
 class LessThanCondition(Condition):
 
-    def negate(self):
+    def negate(self) -> Self:
         return GreaterThanOrEqualCondition(self.variable, self.value)
     
     def contradicts(self, other: Condition) -> bool:
@@ -117,12 +117,12 @@ class LessThanCondition(Condition):
         return False
     
     @property
-    def operator(self):
+    def operator(self) -> str:
         return "<"
 
 class LessThanOrEqualCondition(Condition): 
     
-    def negate(self):
+    def negate(self) -> Self:
         return GreaterThanCondition(self.variable, self.value)
     
     def contradicts(self, other: Condition) -> bool:
@@ -135,5 +135,5 @@ class LessThanOrEqualCondition(Condition):
         return False
         
     @property
-    def operator(self):
+    def operator(self) -> str:
         return "<="

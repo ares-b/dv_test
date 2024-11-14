@@ -4,7 +4,6 @@ from strategy_tree import (
 )
 from strategy import Strategy
 from conditions import (
-    Condition,
     EqualsCondition, NotEqualsCondition,
     GreaterThanCondition, GreaterThanOrEqualCondition,
     LessThanCondition, LessThanOrEqualCondition
@@ -57,17 +56,17 @@ class TestConditionNode:
             LessThanCondition("time", 60),
         ]
 
-        assert type(self.condition_node.true_branch) == ConditionNode
+        assert type(self.condition_node.true_branch) is ConditionNode
         assert self.condition_node.true_branch.id == 1
         assert self.condition_node.true_branch.conditions == [LessThanOrEqualCondition("distance", 5)]
-        assert type(self.condition_node.true_branch.true_branch) == LeafNode
+        assert type(self.condition_node.true_branch.true_branch) is LeafNode
         assert self.condition_node.true_branch.true_branch.id == 3
         assert self.condition_node.true_branch.true_branch.value == 1.0
-        assert type(self.condition_node.true_branch.false_branch) == LeafNode
+        assert type(self.condition_node.true_branch.false_branch) is LeafNode
         assert self.condition_node.true_branch.false_branch.id == 4
         assert self.condition_node.true_branch.false_branch.value == 2.0
 
-        assert type(self.condition_node.false_branch) == LeafNode
+        assert type(self.condition_node.false_branch) is LeafNode
         assert self.condition_node.false_branch.id == 2 
         assert self.condition_node.false_branch.value == 3.0 
     

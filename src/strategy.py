@@ -5,14 +5,14 @@ from conditions import (
     GreaterThanOrEqualCondition, GreaterThanCondition,
     LessThanOrEqualCondition, LessThanCondition
 )
-from typing import List, Union
+from typing import List, Self
 
 @dataclass
 class Strategy:
     conditions: List[Condition]
     value: float
 
-    def __str__(self):
+    def __str__(self) -> str:
         conditions=" && ".join([str(st) for st in self.conditions])
         return f"if ({conditions}) then {self.value}"
     
@@ -32,12 +32,12 @@ class Strategy:
                 return False
         return True
 
-    def prune(self) -> Union["Strategy", None]:
+    def prune(self) -> Self | None:
         from collections import defaultdict
 
         grouped_conditions = defaultdict(list)
 
-        # TODO: O², find a better way to filter out contradictions
+        # O(n*m), find a better way to filter out contradictions
         for condition in self.conditions:
             if any(condition.contradicts(existing) for existing in grouped_conditions[condition.variable]):
                 return None

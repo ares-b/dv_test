@@ -1,6 +1,7 @@
+import argparse
 from dataclasses import dataclass
 from abc import ABC
-from typing import List
+from typing import List, Self
 
 from conditions import (
     Condition,
@@ -18,7 +19,7 @@ class TreeNode(ABC):
 class LeafNode(TreeNode):
     value: float
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"leaf={self.value}"
 
     def __eq__(self, other: object) -> bool:
@@ -32,7 +33,7 @@ class ConditionNode(TreeNode):
     true_branch: TreeNode
     false_branch: TreeNode
 
-    def __str__(self):
+    def __str__(self) -> str:
         conditions_str = "||or||".join(str(cond) for cond in self.conditions)
         return f"[{conditions_str}] yes={self.true_branch.id}, no={self.false_branch.id}"
 
@@ -84,7 +85,7 @@ class StrategyTree:
         return results
 
     @classmethod
-    def from_string(cls, content: str) -> "StrategyTree":
+    def from_string(cls, content: str) -> Self:
         import re
         
         nodes = {}
@@ -126,12 +127,12 @@ class StrategyTree:
         return StrategyTree(nodes[0])
 
     @classmethod
-    def from_file(cls, file_path: str) -> "StrategyTree":
+    def from_file(cls, file_path: str) -> Self:
         with open(file_path, 'r') as file:
             content = file.read()
         return cls.from_string(content)
 
-    def __str__(self):
+    def __str__(self) -> str:
         def recursive_str(node, depth=0):
             indent = '\t' * depth
             result = f"{indent}{node.id}:{node}\n"
@@ -151,14 +152,19 @@ class StrategyTree:
             return False
         return self.root == other.root
 
+def get_arg_parser() -> argparse.ArgumentParser:
+
+    parser = argparse.ArgumentParser(description="Deserializes a DV tree file into a binary Tree and returns prints the strategies")
+    parser.add_argument("-f", "--dv-tree-file-path", type=str, required=True, help="Path to the DV tree file")
+
+    return parser.parse_args()
+
 def main():
-    from os import environ
-
-    dv_tree_file_path = environ.get("DV_TREE_FILE_PATH")
-    if dv_tree_file_path is None:
-        raise ValueError(f"Cannot find env variable DV_TREE_FILE_PATH")
-
-    tree = StrategyTree.from_file(dv_tree_file_path)
+    args = get_arg_parser()
+    tree = StrategyTree.from_file(args.dv_tree_file_path)
 
     for strategy in tree.get_strategies():
         print(strategy)
+
+if __name__ == "__main__":
+    main()

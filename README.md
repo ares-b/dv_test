@@ -1,4 +1,34 @@
-# Instructions
+# DV Test - Condition Tree File Processor
+
+Deserializes a Condition tree file into a Binary Tree and :
+- Removes contradictives paths
+- Prunes valid paths by flattening and simplifying their conditions
+
+## Requirements
+- Python >3.12 (new type hint annotations)
+
+## Usage
+
+To run the script, you need to specify the path to the DV tree file using the `-f` or `--dv-tree-file-path` argument.
+
+### Preferred Setup with Poetry
+
+It is recommended to use **Poetry** to manage dependencies and run the script. If you don't have Poetry installed, follow the [Poetry installation guide](https://python-poetry.org/docs/#installation).
+
+Run with the command:
+
+```bash
+poetry run dv_strategies -f /path/to/your/dv_tree_file.txt
+```
+
+### Alternative Setup (Without Poetry)
+If you prefer not to use Poetry, make sure you have Python 3.12 installed, then you can run the script directly:
+
+```bash
+python process_dv_tree.py -f /path/to/your/dv_tree_file.txt
+```
+
+## Test Instructions
 You need to flatten the attached tree ( tree_to_convert.txt ) into a set of strategies.
 
 A strategy is a combination of :
@@ -10,7 +40,7 @@ A strategy is a combination of :
 
 The syntax of a strategy is given by {strategy definition}:{leaf_value}.
 
-# Modalities
+## Modalities
 - Your script should be coded in Python
 - You have to code a function which takes the tree_to_convert.txt file as input, flattens
 it, and writes the output strategies into another strategies.txt file.
@@ -25,7 +55,7 @@ structure. You can assume similar tree will have :
     - "value=4" is better than "value!=3 & value=4"
 - The operator "&" is the only operator allowed in a strategy
 
-# Example
+## Example
 
 Leaf 4 translates into the following strategy : 
 "device_type!=pc & browser!=7 & browser=8 : 0.000881108"\
