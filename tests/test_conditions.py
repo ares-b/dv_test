@@ -41,7 +41,9 @@ class TestEqualsCondition:
         assert self.condition.contradicts(LessThanOrEqualCondition("test", 40))
         assert not self.condition.contradicts(LessThanOrEqualCondition("test", 50))
         assert not self.condition.contradicts(LessThanOrEqualCondition("test", 60))
-
+        
+        # Non-redundant cases
+        
     def test_condition_str(self):
         assert str(self.condition) == "test=50"
 
@@ -63,9 +65,9 @@ class TestNotEqualsCondition:
         assert self.condition.negate() == EqualsCondition("test", 50)
     
     def test_condition_contradicts(self):
-        assert self.condition.contradicts(NotEqualsCondition("test", 20))
         assert self.condition.contradicts(EqualsCondition("test", 50))
 
+        assert not self.condition.contradicts(NotEqualsCondition("test", 20))
         assert not self.condition.contradicts(GreaterThanCondition("test", 40))
         assert not self.condition.contradicts(GreaterThanCondition("test", 50))
         assert not self.condition.contradicts(GreaterThanCondition("test", 60))
@@ -163,7 +165,7 @@ class TestGreaterThanOrEqualCondition:
         assert self.condition.contradicts(LessThanOrEqualCondition("test", 40))
         assert not self.condition.contradicts(LessThanOrEqualCondition("test", 50))
         assert not self.condition.contradicts(LessThanOrEqualCondition("test", 60))
-    
+
     def test_condition_str(self):
         assert str(self.condition) == "test>=50"
 
