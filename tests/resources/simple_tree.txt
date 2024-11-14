@@ -1,0 +1,5 @@
+0:[device_type=pc||or||browser=7] yes=2,no=1
+	1:[browser=8] yes=4,no=3
+		4:leaf=10
+		3:leaf=20
+	2:leaf=30
