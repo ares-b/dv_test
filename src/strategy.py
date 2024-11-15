@@ -52,18 +52,10 @@ class Strategy:
                 elif isinstance(condition, NotEqualsCondition):
                     track_not_equal_condition.append(condition)
                 elif isinstance(condition, (GreaterThanCondition, GreaterThanOrEqualCondition)):
-                    if tack_greater_than_condition is None or condition.value > tack_greater_than_condition.value or (
-                        isinstance(condition, GreaterThanOrEqualCondition) and
-                        isinstance(tack_greater_than_condition, GreaterThanCondition) and
-                        condition.value == tack_greater_than_condition.value
-                    ):
+                    if tack_greater_than_condition is None or condition.value > tack_greater_than_condition.value or condition.value == tack_greater_than_condition.value:
                         tack_greater_than_condition = condition
                 elif isinstance(condition, (LessThanCondition, LessThanOrEqualCondition)):
-                    if track_less_than_condition is None or condition.value < track_less_than_condition.value or (
-                        isinstance(condition, LessThanOrEqualCondition) and
-                        isinstance(track_less_than_condition, LessThanCondition) and
-                        condition.value == track_less_than_condition.value
-                    ):
+                    if track_less_than_condition is None or condition.value < track_less_than_condition.value or condition.value == track_less_than_condition.value:
                         track_less_than_condition = condition
                 else:
                     raise TypeError(f"Cannot prune condition of type {type(condition)}")
