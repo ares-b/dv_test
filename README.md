@@ -15,8 +15,8 @@ Deserializes a Condition tree file into a Binary Tree and :
 ## Usage
 
 To run the script, you need to specify at least one argument:
-    - The path to the DV tree file using the `-f` or `--dv-tree-file-path` argument
-    - The path to the output strategies file using `-o` or `--strategies-file-path` argument. By default, the program sets this value to `strategies.txt`
+- The path to the DV tree file using the `-f` or `--dv-tree-file-path` argument
+- The path to the output strategies file using `-o` or `--strategies-file-path` argument. By default, the program sets this value to `strategies.txt`
 
 ### Preferred Setup with Poetry
 
