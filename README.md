@@ -4,6 +4,11 @@ Deserializes a Condition tree file into a Binary Tree and :
 - Removes contradictives paths
 - Prunes valid paths by flattening and simplifying their conditions
 
+## Hypotheses
+
+- OR conditions need to be flattened into two or more separate strategies for each possibility
+- Contradictory conditions should be removed, i.e., paths like "phone=5 & phone=7" are not allowed
+
 ## Requirements
 - Python >3.12 (new type hint annotations)
 
@@ -15,14 +20,12 @@ To run the script, you need to specify the path to the DV tree file using the `-
 
 It is recommended to use **Poetry** to manage dependencies and run the script. If you don't have Poetry installed, follow the [Poetry installation guide](https://python-poetry.org/docs/#installation).
 
-Run with the command:
-
 ```bash
 poetry run dv_strategies -f /path/to/your/dv_tree_file.txt
 ```
 
 ### Alternative Setup (Without Poetry)
-If you prefer not to use Poetry, make sure you have Python 3.12 installed, then you can run the script directly:
+If you prefer not to use Poetry, make sure you have Python 3.12 installed.
 
 ```bash
 python process_dv_tree.py -f /path/to/your/dv_tree_file.txt
