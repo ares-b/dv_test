@@ -134,6 +134,11 @@ class StrategyTree:
             content = file.read()
         return cls.from_string(content)
 
+    def write_strategies(self, output_file_path: str) -> None:
+        with open(output_file_path, 'w') as strategies_file:
+            for strategy in self.get_strategies():
+                strategies_file.write(f"{strategy}\n")
+
     def __str__(self) -> str:
         def recursive_str(node, depth=0):
             indent = '\t' * depth
@@ -158,15 +163,14 @@ def get_arg_parser() -> argparse.ArgumentParser:
 
     parser = argparse.ArgumentParser(description="Deserializes a DV tree file into a binary Tree and prints the strategies")
     parser.add_argument("-f", "--dv-tree-file-path", type=str, required=True, help="Path to the DV tree file")
+    parser.add_argument("-o", "--strategies-file-path", type=str, default="strategies.txt", help="Path to output strategies file (default=strategies.txt)")
 
     return parser.parse_args()
 
 def main():
     args = get_arg_parser()
     tree = StrategyTree.from_file(args.dv_tree_file_path)
-
-    for strategy in tree.get_strategies():
-        print(strategy)
+    tree.write_strategies(args.strategies_file_path)
 
 if __name__ == "__main__":
     main()
