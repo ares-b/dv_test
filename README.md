@@ -1,7 +1,7 @@
 # DV Test - Condition Tree File Processor
 
 Deserializes a Condition tree file into a Binary Tree and :
-1. Removes contradictives paths
+1. Removes contradictive paths
 2. Prunes valid paths by flattening and simplifying their conditions
 3. Write the pruned strategies into a file
 
