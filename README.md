@@ -1,8 +1,9 @@
 # DV Test - Condition Tree File Processor
 
 Deserializes a Condition tree file into a Binary Tree and :
-- Removes contradictives paths
-- Prunes valid paths by flattening and simplifying their conditions
+1. Removes contradictives paths
+2. Prunes valid paths by flattening and simplifying their conditions
+3. Write the pruned strategies into a file
 
 ## Hypotheses
 
@@ -14,13 +15,13 @@ Deserializes a Condition tree file into a Binary Tree and :
 
 ## Usage
 
-To run the script, you need to specify at least one argument:
+To run the program, you need to specify at least one argument:
 - The path to the DV tree file using the `-f` or `--dv-tree-file-path` argument
 - The path to the output strategies file using `-o` or `--strategies-file-path` argument. By default, the program sets this value to `strategies.txt`
 
 ### Preferred Setup with Poetry
 
-It is recommended to use **Poetry** to manage dependencies and run the script. If you don't have Poetry installed, follow the [Poetry installation guide](https://python-poetry.org/docs/#installation).
+It is recommended to use **Poetry** to manage dependencies and run the program. If you don't have Poetry installed, follow the [Poetry installation guide](https://python-poetry.org/docs/#installation).
 
 ```bash
 poetry run dv_strategies -f /path/to/your/dv_tree_file.txt
