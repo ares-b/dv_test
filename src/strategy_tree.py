@@ -154,7 +154,7 @@ class StrategyTree:
 
 def get_arg_parser() -> argparse.ArgumentParser:
 
-    parser = argparse.ArgumentParser(description="Deserializes a DV tree file into a binary Tree and returns prints the strategies")
+    parser = argparse.ArgumentParser(description="Deserializes a DV tree file into a binary Tree and prints the strategies")
     parser.add_argument("-f", "--dv-tree-file-path", type=str, required=True, help="Path to the DV tree file")
 
     return parser.parse_args()
