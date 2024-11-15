@@ -58,8 +58,6 @@ class NotEqualsCondition(Condition):
     def contradicts(self, other: Condition) -> bool:
         if isinstance(other, EqualsCondition):
             return self.variable == other.variable and self.value == other.value
-        # elif isinstance(other, NotEqualsCondition):
-        #     return self.variable == other.variable and self.value != other.value
         return False
     
     @property
