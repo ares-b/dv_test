@@ -37,7 +37,7 @@ class Strategy:
         
         simplified_conditions = []
 
-        # Putting the pruning logic on the condition object may improve future evolutions (add new condition type, like contains, etc)
+        # Putting the pruning logic on the condition object can make future evolutions easier (add new condition type, like contains, etc)
         # But it would incrase the pruning overhead, since we would also need to put the priority logic in the condition object
         for conditions in grouped_conditions.values():
             track_equal_condition = None
