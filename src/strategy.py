@@ -17,20 +17,12 @@ class Strategy:
         return f"if ({conditions}) then {self.value}"
     
     def __eq__(self, other: object) -> bool:
+        from collections import Counter
+
         if not isinstance(other, Strategy):
             return False
         
-        if self.value != other.value or len(self.conditions) != len(other.conditions):
-            return False
-        
-        for self_cond in self.conditions:
-            found = False
-            for other_cond in other.conditions:
-                if other_cond == self_cond:
-                    found = True
-            if not found:
-                return False
-        return True
+        return Counter(self.conditions) == Counter(other.conditions) and self.value == other.value
 
     def prune(self) -> Self | None:
         from collections import defaultdict
@@ -45,6 +37,8 @@ class Strategy:
         
         simplified_conditions = []
 
+        # Putting the pruning logic on the condition object may improve future evolutions (add new condition type, like contains, etc)
+        # But it would incrase the pruning overhead, since we would also need to put the priority logic in the condition object
         for conditions in grouped_conditions.values():
             track_equal_condition = None
             track_not_equal_condition = []

@@ -160,17 +160,7 @@ class TestStrategyTree:
         
         tree = StrategyTree.from_file(path.join(resources_path, "simple_tree.txt"))
         tree_strategies = tree.get_strategies()
-
-        for s in tree_strategies:
-            print(s)
         
-        # if (browser!=7 && browser!=8) then 20.0
-        # if (browser=8) then 10.0
-        # if (browser=7) then 30.0
-        # if (device_type=pc) then 30.0
-        # if (device_type!=pc && browser!=8) then 20.0
-        # if (device_type!=pc && browser=8) then 10.0
-
         strategies = [
             Strategy(
                 conditions=[NotEqualsCondition("browser", 8), NotEqualsCondition("browser", 7)],

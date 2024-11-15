@@ -38,18 +38,20 @@ class ConditionNode(TreeNode):
         return f"[{conditions_str}] yes={self.true_branch.id}, no={self.false_branch.id}"
 
     def __eq__(self, other: object) -> bool:
+        from collections import Counter
+
         if not isinstance(other, ConditionNode):
             return False
+        
         return (
             self.id == other.id and
-            self.conditions == other.conditions and
+            Counter(self.conditions) == Counter(other.conditions) and
             self.true_branch == other.true_branch and
             self.false_branch == other.false_branch
         )
     
 @dataclass
 class StrategyTree:
-
     root: TreeNode
 
     LEAF_REGEXP = r"(\d+):leaf=([\d.]+)"

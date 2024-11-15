@@ -23,8 +23,13 @@ class Condition(ABC):
     def __str__(self) -> str:
         return f"{self.variable}{self.operator}{self.value}"
     
-    def __eq__(self, other: "Condition") -> bool:
+    def __eq__(self, other: Self) -> bool:
+        if not isinstance(other, Condition):
+            return False
         return self.variable == other.variable and self.value == other.value and self.operator == other.operator
+    
+    def __hash__(self):
+        return hash(self.variable) + hash(self.value)
 
 class EqualsCondition(Condition):
 
