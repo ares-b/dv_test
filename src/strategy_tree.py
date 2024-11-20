@@ -1,7 +1,7 @@
 import argparse
 from dataclasses import dataclass
 from abc import ABC
-from typing import List, Self
+from typing import List, Self, Set
 
 from conditions import (
     Condition,
@@ -30,8 +30,8 @@ class LeafNode(TreeNode):
 @dataclass
 class ConditionNode(TreeNode):
     conditions: List[Condition]
-    true_branch: TreeNode
-    false_branch: TreeNode
+    true_branch: TreeNode | int
+    false_branch: TreeNode | int
 
     def __str__(self) -> str:
         conditions_str = "||or||".join(str(cond) for cond in self.conditions)
@@ -66,9 +66,9 @@ class StrategyTree:
         "<=": LessThanOrEqualCondition
     }
 
-    def get_strategies(self) -> List[Strategy]:
-        stack = [(self.root, [])]
-        results = []
+    def get_strategies(self) -> Set[Strategy]:
+        stack = [(self.root, frozenset())]
+        results = set()
 
         while stack:
             node, accumulator = stack.pop()
@@ -76,13 +76,15 @@ class StrategyTree:
             if isinstance(node, LeafNode):
                 strategy = Strategy(conditions=accumulator, value=node.value).prune()
                 if strategy is not None:
-                    results.append(strategy)
+                    results.add(strategy)
 
             elif isinstance(node, ConditionNode):
                 for condition in node.conditions:
-                    stack.append((node.true_branch, accumulator + [condition]))
+                    stack.append((node.true_branch, accumulator | {condition}))
 
-                    stack.append((node.false_branch, accumulator + [condition.negate()]))
+                stack.append(
+                    (node.false_branch, accumulator | {condition.negate() for condition in node.conditions})
+                )
 
         return results
 
@@ -161,7 +163,7 @@ class StrategyTree:
 
 def get_arg_parser() -> argparse.ArgumentParser:
 
-    parser = argparse.ArgumentParser(description="Deserializes a DV tree file into a binary Tree and prints the strategies")
+    parser = argparse.ArgumentParser(description="Deserializes a DV tree file into a binary Tree and writes the strategies into a file")
     parser.add_argument("-f", "--dv-tree-file-path", type=str, required=True, help="Path to the DV tree file")
     parser.add_argument("-o", "--strategies-file-path", type=str, default="strategies.txt", help="Path to output strategies file (default=strategies.txt)")
 

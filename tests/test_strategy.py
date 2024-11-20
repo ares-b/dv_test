@@ -56,8 +56,8 @@ class TestStrategy:
             ],
             value=0.5
         )
-
-        assert str(Strategy(
+        
+        assert Strategy(
             conditions=[
                 EqualsCondition("age", 18),
                 NotEqualsCondition("age", 17),
@@ -68,7 +68,7 @@ class TestStrategy:
                 LessThanOrEqualCondition("time", 50),
             ],
             value=0.5
-        ).prune()) == str(Strategy(
+        ).prune() == Strategy(
             conditions=[
                 EqualsCondition("age", 18),
                 NotEqualsCondition("status", "inactive"),
@@ -76,8 +76,8 @@ class TestStrategy:
                 LessThanOrEqualCondition("time", 50),
             ],
             value=0.5
-        ))
-
+        )
+        
         assert Strategy(
             conditions=[
                 GreaterThanCondition("price", 100),

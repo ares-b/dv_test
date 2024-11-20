@@ -122,9 +122,9 @@ class TestStrategyTree:
             EqualsCondition(variable="browser", value=7)
         ]
     
-    def test_strategy_tree_get_strategies(self):
+    def test_strategy_tree_str(self):
         assert str(self.strategy_tree) == "0:[device_type=pc||or||browser=7] yes=2, no=1\n\t2:[os_family=5] yes=6, no=5\n\t\t6:[browser=8] yes=12, no=11\n\t\t\t12:[language=2] yes=20, no=19\n\t\t\t\t20:leaf=0.000559453\n\t\t\t\t19:leaf=0.000594593\n\t\t\t11:[size=300x600] yes=18, no=17\n\t\t\t\t18:leaf=0.000597397\n\t\t\t\t17:leaf=0.00063461\n\t\t5:[browser=8||or||browser=5] yes=10, no=9\n\t\t\t10:leaf=0.000625534\n\t\t\t9:[position=2] yes=16, no=15\n\t\t\t\t16:leaf=0.00066727\n\t\t\t\t15:leaf=0.000708484\n\t1:[browser=8] yes=4, no=3\n\t\t4:leaf=0.000881108\n\t\t3:[os_family=5] yes=8, no=7\n\t\t\t8:leaf=0.000842268\n\t\t\t7:[region=FR:A5] yes=14, no=13\n\t\t\t\t14:leaf=0.000939982\n\t\t\t\t13:leaf=0.000999001"
-    
+
     def test_strategy_tree_from_string(self):
         content = """0:[device_type=pc||or||browser=7] yes=2,no=1
             2:[os_family=5] yes=6,no=5
@@ -161,31 +161,23 @@ class TestStrategyTree:
         tree = StrategyTree.from_file(path.join(resources_path, "simple_tree.txt"))
         tree_strategies = tree.get_strategies()
         
-        strategies = [
+        strategies = set([
             Strategy(
-                conditions=[NotEqualsCondition("browser", 8), NotEqualsCondition("browser", 7)],
-                value=20.0
-            ),
-            Strategy(
-                conditions=[EqualsCondition("browser", 8)],
+                conditions=frozenset([NotEqualsCondition("device_type", "pc"), EqualsCondition("browser", 8)]),
                 value=10.0
             ),
             Strategy(
-                conditions=[EqualsCondition("browser", 7)],
+                conditions=frozenset([EqualsCondition("device_type", "pc")]),
                 value=30.0
             ),
             Strategy(
-                conditions=[NotEqualsCondition("device_type", "pc"), NotEqualsCondition("browser", 8)],
+                conditions=frozenset([EqualsCondition("browser", 7)]),
+                value=30.0
+            ),
+            Strategy(
+                conditions=frozenset([NotEqualsCondition("browser", 7), NotEqualsCondition("device_type", "pc"), NotEqualsCondition("browser", 8)]),
                 value=20.0
             ),
-            Strategy(
-                conditions=[NotEqualsCondition("device_type", "pc"), EqualsCondition("browser", 8)],
-                value=10.0
-            ),
-            Strategy(
-                conditions=[EqualsCondition("device_type", "pc")],
-                value=30.0
-            ),
-        ]
+        ])
         assert tree_strategies == strategies
         

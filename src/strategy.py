@@ -5,11 +5,11 @@ from conditions import (
     GreaterThanOrEqualCondition, GreaterThanCondition,
     LessThanOrEqualCondition, LessThanCondition
 )
-from typing import List, Self
+from typing import Self
 
 @dataclass
 class Strategy:
-    conditions: List[Condition]
+    conditions: frozenset[Condition]
     value: float
 
     def __str__(self) -> str:
@@ -24,6 +24,9 @@ class Strategy:
         
         return Counter(self.conditions) == Counter(other.conditions) and self.value == other.value
 
+    def __hash__(self):
+        return hash(self.conditions) + hash(self.value)
+    
     def prune(self) -> Self | None:
         from collections import defaultdict
 
@@ -72,6 +75,6 @@ class Strategy:
                 simplified_conditions.append(track_less_than_condition)
 
         return self.__class__(
-            conditions=simplified_conditions,
+            conditions=frozenset(simplified_conditions),
             value=self.value
         )

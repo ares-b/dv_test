@@ -29,7 +29,7 @@ class Condition(ABC):
         return self.variable == other.variable and self.value == other.value and self.operator == other.operator
     
     def __hash__(self):
-        return hash(self.variable) + hash(self.value)
+        return hash(self.variable) + hash(self.value) + hash(self.operator)
 
 class EqualsCondition(Condition):
 
